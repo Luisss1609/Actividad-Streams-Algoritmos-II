@@ -1,5 +1,8 @@
 package com.mycompany.algoritmos;
-
+/**
+ *
+ * @author Luis Felipe Caceres Gutierrez
+ */
 import java.util.*;
 import java.util.stream.Collectors;
 
