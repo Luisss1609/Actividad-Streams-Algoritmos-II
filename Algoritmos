@@ -1,0 +1,79 @@
+package com.mycompany.algoritmos;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class Algoritmos {
+
+    public static void main(String[] args) {
+
+        List<Estudiante> estudiantes = List.of(
+                new Estudiante("Ana", "Ingenieria", 4.5),
+                new Estudiante("Carlos", "Ingenieria", 3.2),
+                new Estudiante("Laura", "Medicina", 4.8),
+                new Estudiante("Pedro", "Derecho", 2.9),
+                new Estudiante("Sofia", "Medicina", 4.1),
+                new Estudiante("Juan", "Ingenieria", 2.5),
+                new Estudiante("Maria", "Derecho", 3.9),
+                new Estudiante("Luis", "Medicina", 3.4),
+                new Estudiante("Andres", "Ingenieria", 5.0),
+                new Estudiante("Valentina", "Derecho", 4.3)
+        );
+
+        // Aprobados (nota >= 3.0)
+        List<Estudiante> aprobados = estudiantes.stream()
+                .filter(e -> e.getNota() >= 3.0)
+                .collect(Collectors.toList());
+
+        System.out.println("APROBADOS");
+        aprobados.forEach(System.out::println);
+
+        // Ordenar por nota descendente y nombre
+        List<Estudiante> ordenados = estudiantes.stream()
+                .sorted(Comparator.comparing(Estudiante::getNota).reversed()
+                        .thenComparing(Estudiante::getNombre))
+                .collect(Collectors.toList());
+
+        System.out.println("\nORDENADOS");
+        ordenados.forEach(System.out::println);
+
+        // Top 3
+        List<Estudiante> top3 = ordenados.stream()
+                .limit(3)
+                .collect(Collectors.toList());
+
+        System.out.println("\nTOP 3");
+        top3.forEach(System.out::println);
+
+        // Promedio general
+        double promedioGeneral = estudiantes.stream()
+                .mapToDouble(Estudiante::getNota)
+                .average()
+                .orElse(0);
+
+        System.out.println("\nPROMEDIO GENERAL: " + promedioGeneral);
+
+        // Promedio por programa
+        Map<String, Double> promedioPrograma = estudiantes.stream()
+                .collect(Collectors.groupingBy(
+                        Estudiante::getPrograma,
+                        Collectors.averagingDouble(Estudiante::getNota)
+                ));
+
+        System.out.println("\nPROMEDIO POR PROGRAMA");
+        promedioPrograma.forEach((programa, promedio) ->
+                System.out.println(programa + ": " + promedio));
+
+        // Partición aprobados y reprobados
+        Map<Boolean, List<Estudiante>> particion = estudiantes.stream()
+                .collect(Collectors.partitioningBy(
+                        e -> e.getNota() >= 3.0
+                ));
+
+        System.out.println("\nAPROBADOS");
+        particion.get(true).forEach(System.out::println);
+
+        System.out.println("\nREPROBADOS");
+        particion.get(false).forEach(System.out::println);
+    }
+}
