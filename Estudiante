@@ -1,5 +1,8 @@
 package com.mycompany.algoritmos;
-
+/**
+ *
+ * @author Luis Felipe Caceres Gutierrez
+ */
 public class Estudiante {
     private String nombre;
     private String programa;
